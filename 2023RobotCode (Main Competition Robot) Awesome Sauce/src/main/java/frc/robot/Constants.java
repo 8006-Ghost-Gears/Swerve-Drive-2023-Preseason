@@ -33,14 +33,6 @@ public final class Constants {
 
       public static final int operator = 5;
 
-      public static final int turntable = 28;
-      public static final int shoulderLeft = 30;
-      public static final int shoulderRight = 29;
-      public static final int arm = 6;
-      public static final int intake = 7;
-      public static final int wrist = 8;
-      public static final int conemode = 31;
-
 
       public static final class CAN {
 

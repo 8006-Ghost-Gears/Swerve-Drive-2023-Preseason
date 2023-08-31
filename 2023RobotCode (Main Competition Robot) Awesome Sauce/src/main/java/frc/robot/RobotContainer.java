@@ -43,25 +43,12 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.swerve.SetSwerveDrive;
 import frc.robot.commands.swerve.SetSwerveDriveBalance;
-import frc.robot.commands.arm.ArmCommand;
-import frc.robot.commands.arm.ArmCubeIntake;
-import frc.robot.commands.arm.ArmStowed;
-import frc.robot.commands.arm.ShoulderDownCommand;
-import frc.robot.commands.arm.ShoulderUpCommand;
 import frc.robot.commands.autos.BalanceMid;
 import frc.robot.commands.autos.BlueStartRightChargeStation;
 import frc.robot.commands.autos.DriveBackward;
 import frc.robot.commands.autos.DriveForwardLong;
 import frc.robot.commands.autos.DriveForwardShort;
-import frc.robot.commands.intakecommands.IntakeCommand;
-import frc.robot.commands.intakecommands.OuttakeCommand;
-import frc.robot.commands.intakecommands.WristCommand;
-import frc.robot.commands.intakecommands.WristCommand;
 import frc.robot.simulation.FieldSim;
-import frc.robot.subsystems.arm.ArmSub;
-import frc.robot.subsystems.arm.ShoulderSub;
-import frc.robot.subsystems.intakesubs.IntakeSub;
-import frc.robot.subsystems.intakesubs.WristSub;
 import frc.robot.subsystems.swerve.SwerveDrive;
 import frc.robot.subsystems.swerve.SwerveModule;
 import frc.robot.utils.ModuleMap;
@@ -100,36 +87,13 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
 
-  public static ArmSub mArmSub = new ArmSub();
-
   //public static ConeModeSub mConeModeSub = new ConeModeSub();
-
-  public static WristSub mWristSub = new WristSub();
-
-  public static IntakeSub mIntakeSub = new IntakeSub();
-
-  public static ShoulderSub mShoulderSub = new ShoulderSub();
 
   public static PS4Controller operator = new PS4Controller(Constants.operator);
 
 
   //Auto Stabalize Button 
   JoystickButton Stabalize = new JoystickButton(testController, 5);
-
-  // Intake Buttons
-  //POVButton ConeModeSwitch = new POVButton(operator, 90);
-  JoystickButton Intake = new JoystickButton(operator, 7);
-  JoystickButton Outtake = new JoystickButton(operator, 8);
-
-  // Preset Buttons
-  JoystickButton ShoulderUp = new JoystickButton(operator, 4);
-  JoystickButton ShoulderDown = new JoystickButton(operator, 2);
-  JoystickButton CubeIntake = new JoystickButton(operator, 3);
-  //JoystickButton HighScoringCube = new JoystickButton(operator, 4);
-  //JoystickButton MidScoringCube = new JoystickButton(operator, 1);
-  //JoystickButton LowScoringCube = new JoystickButton(operator, 3);
-  JoystickButton Stowed = new JoystickButton(operator, 12);
-
 
 
 /*
@@ -168,7 +132,6 @@ public class RobotContainer {
     //initializeAutoChooser();
 
     // Configure the button bindings
-    mWristSub.setDefaultCommand(new WristCommand());
     //mTurnTableSub.setDefaultCommand(new TurnTableCommand());
     configureButtonBindings();
    UsbCamera camera = CameraServer.startAutomaticCapture();
@@ -208,13 +171,7 @@ public class RobotContainer {
     for (int i = 0; i < xBoxPOVButtons.length; i++)
       xBoxPOVButtons[i] = new POVButton(xBoxController, (i * 90));
 
-    Intake.whileTrue(new IntakeCommand());
-    Outtake.whileTrue(new OuttakeCommand());
-    ShoulderUp.whileTrue(new ShoulderUpCommand());
-    ShoulderDown.whileTrue(new ShoulderDownCommand());
-    CubeIntake.onTrue(new ArmCubeIntake());
-    Stowed.onTrue(new ArmStowed());
-    //ConeModeSwitch.onTrue(new ConeModeCommand());
+   
     Stabalize.whileTrue(new SetSwerveDriveBalance(m_swerveDrive, null, null, null).withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
 
 
