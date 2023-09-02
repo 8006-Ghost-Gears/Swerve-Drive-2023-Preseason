@@ -140,6 +140,7 @@ public class RobotContainer {
     PortForwarder.add(5800, "10.80.6.12", 5800);
     PortForwarder.add(5801, "10.80.6.12", 5801);
     PortForwarder.add(5802, "10.80.6.12", 5802);
+    PortForwarder.add(5803, "photonvision.local", 5803);
   }
 
   
