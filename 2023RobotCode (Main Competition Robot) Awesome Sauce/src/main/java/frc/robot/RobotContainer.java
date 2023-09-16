@@ -84,14 +84,14 @@ public class RobotContainer {
   public Trigger[] xBoxButtons = new Trigger[10];
   public Trigger[] xBoxPOVButtons = new Trigger[4];
   public Trigger xBoxLeftTrigger, xBoxRightTrigger;
-
+  
   // The robot's subsystems and commands are defined here...
 
   //public static ConeModeSub mConeModeSub = new ConeModeSub();
 
   public static PS4Controller operator = new PS4Controller(Constants.operator);
 
-
+  
   //Auto Stabalize Button 
   JoystickButton Stabalize = new JoystickButton(testController, 5);
 
