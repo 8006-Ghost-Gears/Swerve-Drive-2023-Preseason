@@ -23,8 +23,8 @@ import frc.robot.utils.ModuleMap;
  */
 public final class Constants { 
 
-    public static final int testController = 1;
-    public static final int operator = 2;
+    public static final int testController = 0;
+    public static final int operator = 1;
 
 
       public static final class CAN {

@@ -153,7 +153,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
    
     Stabalize.whileTrue(new SetSwerveDriveBalance(m_swerveDrive, null, null, null).withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
-    Lock.whileTrue(new SetSwerveDriveLock(m_swerveDrive, null, null, null).withInterruptBehavior(InterruptBehavior.kCancelIncoming));
+    Lock.whileTrue(new SetSwerveDriveLock(m_swerveDrive, null, null, null).withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
 
   }
   
@@ -172,11 +172,11 @@ public class RobotContainer {
 
     //Cero para Rivera
 
-    m_autoChooser.Option(
+    m_autoChooser.addOption(
        "DriveForwardShort", new DriveForwardShort("DriveForwardShort", m_autoBuilder, m_swerveDrive, m_fieldSim));
     SmartDashboard.putData("Auto Selector", m_autoChooser);
 
-    m_autoChooser.Option(
+    m_autoChooser.addOption(
        "DriveForwardLong", new DriveForwardLong("DriveForwardLong", m_autoBuilder, m_swerveDrive, m_fieldSim));
     SmartDashboard.putData("Auto Selector", m_autoChooser);
     

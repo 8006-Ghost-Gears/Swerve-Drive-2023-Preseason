@@ -89,9 +89,6 @@ private final int m_moduleNumber;
     m_turnMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     m_turnMotor.setInverted(true);
 
-    m_CANCoder.configFactoryDefault();
-    m_CANCoder.configAllSettings(CtreUtils.generateCanCoderConfig());
-
     m_driveEncoder = m_driveMotor.getEncoder();
     m_driveEncoder.setPositionConversionFactor(kDriveRevToMeters);
     m_driveEncoder.setVelocityConversionFactor(kDriveRpmToMetersPerSecond);
@@ -111,7 +108,6 @@ private final int m_moduleNumber;
   private void initCanCoder() {
         Timer.delay(1);
         m_CANCoder.configFactoryDefault();
-        m_CANCoder.configAllSettings(CtreUtils.generateCanCoderConfig());
         m_initSuccess = true;
       }
 
