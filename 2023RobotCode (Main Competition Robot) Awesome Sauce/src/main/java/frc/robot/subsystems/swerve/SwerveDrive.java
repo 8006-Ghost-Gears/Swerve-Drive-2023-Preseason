@@ -365,21 +365,3 @@ public class SwerveDrive extends SubsystemBase {
     m_pigeon.getSimCollection().setRawHeading(-Units.radiansToDegrees(m_simYaw));
   }
 }
-
-
-
-
-
-/* 
-  private ProfiledPIDController m_xController =
-      new ProfiledPIDController(kP_X, 0, kD_X, kThetaControllerConstraints);
-  private ProfiledPIDController m_yController =
-      new ProfiledPIDController(kP_Y, 0, kD_Y, kThetaControllerConstraints);
-  private ProfiledPIDController m_turnController =
-      new ProfiledPIDController(kP_Theta, 0, kD_Theta, kThetaControllerConstraints);
-
-*/
-    
-  
-   
-
