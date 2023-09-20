@@ -45,7 +45,6 @@ import frc.robot.commands.swerve.SetSwerveDrive;
 import frc.robot.commands.swerve.SetSwerveDriveBalance;
 import frc.robot.commands.swerve.SetSwerveDriveLock;
 import frc.robot.commands.autos.BalanceMid;
-import frc.robot.commands.autos.BlueStartRightChargeStation;
 import frc.robot.commands.autos.DriveBackward;
 import frc.robot.commands.autos.DriveForwardLong;
 import frc.robot.commands.autos.DriveForwardShort;
@@ -173,20 +172,16 @@ public class RobotContainer {
 
     //Cero para Rivera
 
-    m_autoChooser.addOption(
+    m_autoChooser.Option(
        "DriveForwardShort", new DriveForwardShort("DriveForwardShort", m_autoBuilder, m_swerveDrive, m_fieldSim));
     SmartDashboard.putData("Auto Selector", m_autoChooser);
 
-    m_autoChooser.addOption(
+    m_autoChooser.Option(
        "DriveForwardLong", new DriveForwardLong("DriveForwardLong", m_autoBuilder, m_swerveDrive, m_fieldSim));
     SmartDashboard.putData("Auto Selector", m_autoChooser);
     
     m_autoChooser.addOption(
         "DriveBackward", new DriveBackward("DriveBackward", m_autoBuilder, m_swerveDrive, m_fieldSim));
-    SmartDashboard.putData("Auto Selector", m_autoChooser);
-    
-    m_autoChooser.addOption(
-        "BlueStartRightChargeStation", new BlueStartRightChargeStation("BlueStartRightChargeStation", m_autoBuilder, m_swerveDrive, m_fieldSim));
     SmartDashboard.putData("Auto Selector", m_autoChooser);
 
     m_autoChooser.addOption(
