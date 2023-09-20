@@ -60,10 +60,10 @@ public class SetSwerveDriveLock extends CommandBase {
 
     states =
         new SwerveModuleState[] {
-          new SwerveModuleState(Units.feetToMeters(0), Rotation2d.fromDegrees(-45)),
-          new SwerveModuleState(Units.feetToMeters(0), Rotation2d.fromDegrees(45)),
-          new SwerveModuleState(Units.feetToMeters(0), Rotation2d.fromDegrees(-45)),
-          new SwerveModuleState(Units.feetToMeters(0), Rotation2d.fromDegrees(45)),
+          new SwerveModuleState(output, Rotation2d.fromDegrees(-45)),
+          new SwerveModuleState(output, Rotation2d.fromDegrees(45)),
+          new SwerveModuleState(output, Rotation2d.fromDegrees(-45)),
+          new SwerveModuleState(output, Rotation2d.fromDegrees(45)),
         };
     m_swerveDrive.setSwerveModuleStates(states, false);
 
