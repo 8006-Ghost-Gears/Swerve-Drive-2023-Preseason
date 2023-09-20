@@ -43,6 +43,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.swerve.SetSwerveDrive;
 import frc.robot.commands.swerve.SetSwerveDriveBalance;
+import frc.robot.commands.swerve.SetSwerveDriveLock;
 import frc.robot.commands.autos.BalanceMid;
 import frc.robot.commands.autos.BlueStartRightChargeStation;
 import frc.robot.commands.autos.DriveBackward;
@@ -81,9 +82,12 @@ public class RobotContainer {
   
   //Auto Stabalize Button 
   JoystickButton Stabalize = new JoystickButton(testController, 5);
+  //Lock Wheels Button
+  JoystickButton Lock = new JoystickButton(testController, 6);
 
 
 /*
+ * Tips For Programmers
  * POV is the D-Pad, Example: POVButton handOpen = new POVButton(operator, 90);
  * The POV buttons are referred to by the angle. Up is 0, right is 90, down is 180, and left is 270.
  * buttonNumber 1 is Square on a PS4 Controller
@@ -150,6 +154,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
    
     Stabalize.whileTrue(new SetSwerveDriveBalance(m_swerveDrive, null, null, null).withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
+    Lock.whileTrue(new SetSwerveDriveLock(m_swerveDrive, null, null, null).withInterruptBehavior(InterruptBehavior.kCancelIncoming));
 
   }
   
