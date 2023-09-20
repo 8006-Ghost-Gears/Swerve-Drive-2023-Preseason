@@ -74,20 +74,7 @@ public class RobotContainer {
   HashMap<String, Command> m_eventMap = new HashMap<>();
   private SwerveAutoBuilder m_autoBuilder;
 
-  static Joystick leftJoystick = new Joystick(Constants.USB.leftJoystick);
-  static Joystick rightJoystick = new Joystick(Constants.USB.rightJoystick);
-  static XboxController xBoxController = new XboxController(Constants.USB.xBoxController);
-  static PS4Controller testController = new PS4Controller(Constants.USB.testController);
-
-  public Trigger[] leftButtons = new Trigger[2];
-  public Trigger[] rightButtons = new Trigger[2];
-  public Trigger[] xBoxButtons = new Trigger[10];
-  public Trigger[] xBoxPOVButtons = new Trigger[4];
-  public Trigger xBoxLeftTrigger, xBoxRightTrigger;
-  
-  // The robot's subsystems and commands are defined here...
-
-  //public static ConeModeSub mConeModeSub = new ConeModeSub();
+  public static PS4Controller testController = new PS4Controller(Constants.testController);
 
   public static PS4Controller operator = new PS4Controller(Constants.operator);
 
@@ -129,10 +116,8 @@ public class RobotContainer {
     initializeSubsystems();
     initAutoBuilder();
     initializeAutoChooser();
-    //initializeAutoChooser();
 
     // Configure the button bindings
-    //mTurnTableSub.setDefaultCommand(new TurnTableCommand());
     configureButtonBindings();
    UsbCamera camera = CameraServer.startAutomaticCapture();
     camera.setResolution(160, 120); //Usually (640,320)
@@ -163,18 +148,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    for (int i = 0; i < leftButtons.length; i++)
-      leftButtons[i] = new JoystickButton(leftJoystick, (i + 1));
-    for (int i = 0; i < rightButtons.length; i++)
-      rightButtons[i] = new JoystickButton(rightJoystick, (i + 1));
-    for (int i = 0; i < xBoxButtons.length; i++)
-      xBoxButtons[i] = new JoystickButton(xBoxController, (i + 1));
-    for (int i = 0; i < xBoxPOVButtons.length; i++)
-      xBoxPOVButtons[i] = new POVButton(xBoxController, (i * 90));
-
    
     Stabalize.whileTrue(new SetSwerveDriveBalance(m_swerveDrive, null, null, null).withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
-
 
   }
   
@@ -184,9 +159,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
+    // The selected command will run in autonomous
     return m_autoChooser.getSelected();
-    //return m_autoCommand;
   }
 
   public void initializeAutoChooser() {
@@ -213,13 +187,6 @@ public class RobotContainer {
     m_autoChooser.addOption(
         "BalanceMid", new BalanceMid("BalanceMid", m_autoBuilder, m_swerveDrive, m_fieldSim));
     SmartDashboard.putData("Auto Selector", m_autoChooser);
-    
-    //m_autoChooser.addOption(
-     // "JustBalance", new JustBalance("JustBalance", m_autoBuilder, m_swerveDrive, m_fieldSim));
-  //SmartDashboard.putData("Auto Selector", m_autoChooser);
-    
-    
-
 
     //The width and length for the robot is done in meters on PathPlanner.
 
