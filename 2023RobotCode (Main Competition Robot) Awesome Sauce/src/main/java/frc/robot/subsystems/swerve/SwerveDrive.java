@@ -61,28 +61,28 @@ public class SwerveDrive extends SubsystemBase {
                       new CANSparkMax(CAN.frontLeftTurnMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                       new CANSparkMax(CAN.frontLeftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                       new CANCoder(CAN.frontLeftCanCoder),
-                      274.921875),
+                      291.4453125),
             SWERVE_MODULE_POSITION.FRONT_RIGHT,
                   new SwerveModule(
                     SWERVE_MODULE_POSITION.FRONT_RIGHT,
                       new CANSparkMax(CAN.frontRightTurnMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                       new CANSparkMax(CAN.frontRightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                       new CANCoder(CAN.frontRightCanCoder),
-                      58.18359375),
+                      183.33984375),
             SWERVE_MODULE_POSITION.BACK_LEFT,
                   new SwerveModule(
                     SWERVE_MODULE_POSITION.BACK_LEFT,
                       new CANSparkMax(CAN.backLeftTurnMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                       new CANSparkMax(CAN.backLeftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                       new CANCoder(CAN.backLeftCanCoder),
-                      19.3359375),
+                      271.7578125),
             SWERVE_MODULE_POSITION.BACK_RIGHT,
                   new SwerveModule(
                     SWERVE_MODULE_POSITION.BACK_RIGHT,
                       new CANSparkMax(CAN.backRightTurnMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                       new CANSparkMax(CAN.backRightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                       new CANCoder(CAN.backRightCanCoder),
-                      2.63671875)));
+                      331.875)));
 
   private final Pigeon2 m_pigeon = new Pigeon2(CAN.pigeon, "rio");
   private Trajectory m_trajectory;
