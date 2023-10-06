@@ -44,6 +44,12 @@ public final class Constants {
         public static final int backLeftTurnMotor = 25;
         public static final int backRightDriveMotor = 26;
         public static final int backRightTurnMotor = 27;
+
+        public static final int shoulderLeft = 29;
+        public static final int shoulderRight = 28;
+        public static final int arm = 30;
+        public static final int intake = 31;
+
       }
 
       public enum SwerveDriveModulePosition {

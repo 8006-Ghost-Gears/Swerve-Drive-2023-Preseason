@@ -44,11 +44,17 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.swerve.SetSwerveDrive;
 import frc.robot.commands.swerve.SetSwerveDriveBalance;
 import frc.robot.commands.swerve.SetSwerveDriveLock;
+import frc.robot.commands.ArmIn;
+import frc.robot.commands.ShoulderDownCommand;
+import frc.robot.commands.ShoulderUpCommand;
+import frc.robot.commands.StowedCommand;
 import frc.robot.commands.autos.BalanceMid;
 import frc.robot.commands.autos.DriveBackward;
 import frc.robot.commands.autos.DriveForwardLong;
 import frc.robot.commands.autos.DriveForwardShort;
 import frc.robot.simulation.FieldSim;
+import frc.robot.subsystems.ArmSub;
+import frc.robot.subsystems.ShoulderSub;
 import frc.robot.subsystems.swerve.SwerveDrive;
 import frc.robot.subsystems.swerve.SwerveModule;
 import frc.robot.utils.ModuleMap;
@@ -67,6 +73,10 @@ public class RobotContainer {
 
   private final SwerveDrive m_swerveDrive = new SwerveDrive();
 
+  public static ShoulderSub mShoulderSub = new ShoulderSub();
+
+  public static ArmSub mArmSub = new ArmSub();
+
   private final SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
 
   private final FieldSim m_fieldSim = new FieldSim(m_swerveDrive);
@@ -83,6 +93,13 @@ public class RobotContainer {
   JoystickButton Stabalize = new JoystickButton(testController, 5);
   //Lock Wheels Button
   JoystickButton Lock = new JoystickButton(testController, 6);
+
+  // Operator Buttons
+  POVButton ShoulderUp = new POVButton(operator, 0);
+  POVButton ShoulderDown = new POVButton(operator, 180);
+  JoystickButton Stowed = new JoystickButton(operator, 12);
+  JoystickButton ArmIn = new JoystickButton(operator, 5);
+  JoystickButton ArmOut = new JoystickButton(operator, 7);
 
 
 /*
@@ -152,6 +169,12 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
    
+    ShoulderUp.whileTrue(new ShoulderUpCommand());
+    ShoulderDown.whileTrue(new ShoulderDownCommand());
+    Stowed.onTrue(new StowedCommand());
+    ArmIn.onTrue(new frc.robot.commands.ArmIn());
+    ArmOut.onTrue(new frc.robot.commands.ArmOut());
+
     Stabalize.whileTrue(new SetSwerveDriveBalance(m_swerveDrive, null, null, null).withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
     Lock.whileTrue(new SetSwerveDriveLock(m_swerveDrive, null, null, null).withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
 
