@@ -7,34 +7,20 @@ package frc.robot.subsystems.swerve;
 import static frc.robot.Constants.SwerveDrive.kMaxSpeedMetersPerSecond;
 import static frc.robot.Constants.SwerveModule.*;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkMax.IdleMode;
 
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.networktables.BooleanPublisher;
-import edu.wpi.first.networktables.DoublePublisher;
-import edu.wpi.first.util.datalog.DataLog;
-import edu.wpi.first.util.datalog.DoubleLogEntry;
-import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.Constants.SwerveDriveModulePosition;
 import frc.robot.Constants.SwerveDrive.SWERVE_MODULE_POSITION;
-import frc.robot.subsystems.swerve.SwerveDrive;
 import frc.robot.utils.*;
 import frc.robot.utils.RevUtils.PID_SLOT;
 
@@ -61,10 +47,6 @@ private final int m_moduleNumber;
                   ksDriveVoltSecondsPerMeter,
                   kaDriveVoltSecondsSquaredPerMeter,
                   kvDriveVoltSecondsSquaredPerMeter);
-
-  private final ProfiledPIDController m_turningPIDController
-          = new ProfiledPIDController(1, 0, 0,
-          new TrapezoidProfile.Constraints(2 * Math.PI, 2 * Math.PI));
 
   public SwerveModule(
         SWERVE_MODULE_POSITION modulePosition,
@@ -102,7 +84,6 @@ private final int m_moduleNumber;
 
     m_lastAngle = getHeadingDegrees();
 
-    DataLog m_log = DataLogManager.getLog();
   }
    
   private void initCanCoder() {
@@ -218,7 +199,5 @@ private final int m_moduleNumber;
       public void periodic() {
         updateSmartDashboard();
       }
-
-  private ShuffleboardTab m_ShuffleboardTab = Shuffleboard.getTab("Swerve");
 
 }
