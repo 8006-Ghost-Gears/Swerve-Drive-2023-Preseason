@@ -4,9 +4,6 @@
 
 package frc.robot;
 
-
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.HashMap;
 
 import com.pathplanner.lib.auto.PIDConstants;
@@ -16,35 +13,20 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.math.controller.HolonomicDriveController;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.util.datalog.DataLog;
-import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.swerve.SetSwerveDrive;
 import frc.robot.commands.swerve.SetSwerveDriveBalance;
 import frc.robot.commands.swerve.SetSwerveDriveLock;
-import frc.robot.commands.ArmIn;
 import frc.robot.commands.ShoulderDownCommand;
 import frc.robot.commands.ShoulderUpCommand;
 import frc.robot.commands.StowedCommand;
@@ -56,8 +38,6 @@ import frc.robot.simulation.FieldSim;
 import frc.robot.subsystems.ArmSub;
 import frc.robot.subsystems.ShoulderSub;
 import frc.robot.subsystems.swerve.SwerveDrive;
-import frc.robot.subsystems.swerve.SwerveModule;
-import frc.robot.utils.ModuleMap;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -66,8 +46,6 @@ import frc.robot.utils.ModuleMap;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-
-  private final DataLog m_logger = DataLogManager.getLog();
 
   // The robot's subsystems and commands are defined here...
 

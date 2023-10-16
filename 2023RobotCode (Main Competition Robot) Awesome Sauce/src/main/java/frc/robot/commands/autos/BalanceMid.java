@@ -1,11 +1,15 @@
 package frc.robot.commands.autos;
 
+import java.util.List;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.swerve.AutoBalance;
 import frc.robot.commands.swerve.SetSwerveNeutralMode;
@@ -21,15 +25,22 @@ public class BalanceMid extends SequentialCommandGroup {
       SwerveDrive swerveDrive,
       FieldSim fieldSim) {
 
-    var trajectory =
-        TrajectoryUtils.readTrajectory(
-            pathName, new PathConstraints(Units.feetToMeters(9), Units.feetToMeters(9)));
+      double maxVel = Units.feetToMeters(4);
+    double maxAccel = Units.feetToMeters(4);
+    if (RobotBase.isSimulation()) {
+      maxVel = Units.feetToMeters(4);
+      maxAccel = Units.feetToMeters(4);
+    }
 
-    var autoPath = autoBuilder.fullAuto(trajectory);
+      PathConstraints constraints = new PathConstraints(maxVel, maxAccel);
+
+      List<PathPlannerTrajectory> trajectory =
+        TrajectoryUtils.readTrajectory(
+            pathName, constraints);
 
     addCommands(
         new SetSwerveOdometry(swerveDrive, trajectory.get(0).getInitialHolonomicPose(), fieldSim),
-        autoPath,
+        new PlotAutoTrajectory(fieldSim, pathName, trajectory),
         new AutoBalance(swerveDrive),
         new SetSwerveNeutralMode(swerveDrive, IdleMode.kBrake)
             .andThen(() -> swerveDrive.drive(0, 0, 0, false, false)));

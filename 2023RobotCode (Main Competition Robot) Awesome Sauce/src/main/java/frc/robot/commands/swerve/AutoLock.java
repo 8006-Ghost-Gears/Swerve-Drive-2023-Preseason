@@ -13,7 +13,6 @@ public class AutoLock extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final SwerveDrive m_swerveDrive;
 
-  private final DoubleSupplier m_throttleInput, m_strafeInput, m_rotationInput;
   SwerveModuleState[] states;
 
   PIDController outputCalculator = new PIDController(0.01, 0, 0);
@@ -24,14 +23,9 @@ public class AutoLock extends CommandBase {
    * @param swerveDriveSubsystem The subsystem used by this command.
    */
   public AutoLock(
-      SwerveDrive swerveDriveSubsystem,
-      DoubleSupplier throttleInput,
-      DoubleSupplier strafeInput,
-      DoubleSupplier rotationInput) {
+      SwerveDrive swerveDriveSubsystem) {
     m_swerveDrive = swerveDriveSubsystem;
-    m_throttleInput = throttleInput;
-    m_strafeInput = strafeInput;
-    m_rotationInput = rotationInput;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerveDriveSubsystem);
   }
@@ -41,9 +35,9 @@ public class AutoLock extends CommandBase {
   public void initialize() {
     states =
         new SwerveModuleState[] {
-          new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
+          new SwerveModuleState(0, Rotation2d.fromDegrees(135)),
           new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
-          new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
+          new SwerveModuleState(0, Rotation2d.fromDegrees(135)),
           new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
         };
     m_swerveDrive.setSwerveModuleStates(states, false);
@@ -55,20 +49,17 @@ public class AutoLock extends CommandBase {
   @Override
   public void execute() {
 
-    double output = outputCalculator.calculate(m_swerveDrive.getPitchDegrees());
-    // TODO; set a way to initiallze pitch to 0
-
     states =
         new SwerveModuleState[] {
-          new SwerveModuleState(Units.feetToMeters(0), Rotation2d.fromDegrees(-45)),
+          new SwerveModuleState(Units.feetToMeters(0), Rotation2d.fromDegrees(135)),
           new SwerveModuleState(Units.feetToMeters(0), Rotation2d.fromDegrees(45)),
-          new SwerveModuleState(Units.feetToMeters(0), Rotation2d.fromDegrees(-45)),
+          new SwerveModuleState(Units.feetToMeters(0), Rotation2d.fromDegrees(135)),
           new SwerveModuleState(Units.feetToMeters(0), Rotation2d.fromDegrees(45)),
         };
     m_swerveDrive.setSwerveModuleStates(states, false);
 
     SmartDashboard.putNumber("moduleangle", m_swerveDrive.getPitchDegrees());
-    System.out.print("Awesome Sauce");
+    //System.out.print("Awesome Sauce");
   }
 
   // Called once the command ends or is interrupted.
@@ -76,9 +67,9 @@ public class AutoLock extends CommandBase {
   public void end(boolean interrupted) {
     states =
         new SwerveModuleState[] {
-          new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
+          new SwerveModuleState(0, Rotation2d.fromDegrees(135)),
           new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
-          new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
+          new SwerveModuleState(0, Rotation2d.fromDegrees(135)),
           new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
         };
     m_swerveDrive.setSwerveModuleStates(states, false);
