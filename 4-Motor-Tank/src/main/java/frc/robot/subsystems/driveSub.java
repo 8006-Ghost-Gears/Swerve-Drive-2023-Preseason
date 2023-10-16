@@ -27,10 +27,10 @@ public class driveSub extends SubsystemBase {
     frontRightMotor.restoreFactoryDefaults();
     backRightMotor.restoreFactoryDefaults();
 
-    frontLeftMotor.setOpenLoopRampRate(.2);
-    frontRightMotor.setOpenLoopRampRate(.2);
-    backLeftMotor.setOpenLoopRampRate(.2);
-    backRightMotor.setOpenLoopRampRate(.2);
+    //frontLeftMotor.setOpenLoopRampRate(.2);
+    //frontRightMotor.setOpenLoopRampRate(.2);
+    //backLeftMotor.setOpenLoopRampRate(.2);
+    //backRightMotor.setOpenLoopRampRate(.2);
 
     frontLeftMotor.setSmartCurrentLimit(25);
     frontRightMotor.setSmartCurrentLimit(25);
