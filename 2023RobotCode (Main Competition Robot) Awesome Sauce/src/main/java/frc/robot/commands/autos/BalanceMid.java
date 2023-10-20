@@ -1,11 +1,15 @@
 package frc.robot.commands.autos;
 
+import java.util.List;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.swerve.AutoBalance;
 import frc.robot.commands.swerve.SetSwerveNeutralMode;
@@ -21,11 +25,11 @@ public class BalanceMid extends SequentialCommandGroup {
       SwerveDrive swerveDrive,
       FieldSim fieldSim) {
 
-    var trajectory =
+      var trajectory =
         TrajectoryUtils.readTrajectory(
-            pathName, new PathConstraints(Units.feetToMeters(9), Units.feetToMeters(9)));
+            pathName, new PathConstraints(Units.feetToMeters(4), Units.feetToMeters(4)));
 
-    var autoPath = autoBuilder.fullAuto(trajectory);
+      var autoPath = autoBuilder.fullAuto(trajectory);
 
     addCommands(
         new SetSwerveOdometry(swerveDrive, trajectory.get(0).getInitialHolonomicPose(), fieldSim),

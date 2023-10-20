@@ -23,21 +23,14 @@ import frc.robot.utils.ModuleMap;
  */
 public final class Constants { 
 
-    public static final class USB {
-
-        public static final int leftJoystick = 0;
-        public static final int rightJoystick = 1;
-        public static final int xBoxController = 2;
-        public static final int testController = 4;
-      }
-
-      public static final int operator = 5;
+    public static final int testController = 0;
+    public static final int operator = 1;
 
 
       public static final class CAN {
 
         public static final int pigeon = 9;
-    
+
         public static final int frontLeftCanCoder = 10;
         public static final int frontRightCanCoder = 11;
         public static final int backLeftCanCoder = 12;
@@ -51,6 +44,12 @@ public final class Constants {
         public static final int backLeftTurnMotor = 25;
         public static final int backRightDriveMotor = 26;
         public static final int backRightTurnMotor = 27;
+
+        public static final int shoulderLeft = 29;
+        public static final int shoulderRight = 28;
+        public static final int arm = 30;
+        public static final int intake = 31;
+
       }
 
       public enum SwerveDriveModulePosition {
@@ -83,20 +82,12 @@ public final class Constants {
         public static final double kMaxRotationRadiansPerSecond = Math.PI * 1.65;
         public static final double kMaxRotationRadiansPerSecondSquared = Math.PI * 1.5;
     
-        public static final double kP_X = 0.2;
-        public static final double kD_X = 0;
-        public static final double kP_Y = 0.2;
-        public static final double kD_Y = 0;
-        public static final double kP_Theta = 8;
-        public static final double kD_Theta = 0;
-
       public static final double kP_Translation = 0.6;
       public static final double kI_Translation = 0;
       public static final double kD_Translation = 0;
       public static final double kP_Rotation = 4;
       public static final double kI_Rotation = 0;
       public static final double kD_Rotation = 0.01;
-      
 
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
         new TrapezoidProfile.Constraints(
@@ -117,16 +108,10 @@ public final class Constants {
     public static final double kTurningMotorGearRatio = 150.0 / 7.0;
     public static final double kWheelDiameterMeters = Units.inchesToMeters(3.94);
     public static final int kNeoCPR = 42;
-    public static final int kCANCoderCPR = 4096; // Figure this out for Neo Motors.
-
-    //public static final double ksVolts = 0.20322;
-      //  public static final double kvVoltSecondsPerMeter = 3.2976;
-        //public static final double kaVoltSecondsSquaredPerMeter = 0.67542;
-      //  public static final double kPDriveVel = 4.569;
+    public static final int kCANCoderCPR = 4096; 
 
     public static final DCMotor kDriveGearbox = DCMotor.getNEO(1);
     public static final DCMotor kTurnGearbox = DCMotor.getNEO(1);
-
 
     public static final double kDriveRevToMeters =
             ((kWheelDiameterMeters * Math.PI) / kDriveMotorGearRatio);

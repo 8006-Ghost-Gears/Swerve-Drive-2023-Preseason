@@ -4,10 +4,6 @@
 
 package frc.robot.subsystems.swerve;
 
-import static frc.robot.Constants.SwerveDrive.*;
-
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.unmanaged.Unmanaged;
@@ -15,17 +11,14 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.CANSparkMax.IdleMode;
 
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Translation3d;
+
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -40,8 +33,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.CAN;
-import frc.robot.Constants.SwerveDriveModulePosition;
-import frc.robot.subsystems.swerve.SwerveModule;
 import frc.robot.Constants.SwerveDrive.SWERVE_MODULE_POSITION;
 import frc.robot.utils.ModuleMap;
 
@@ -61,28 +52,28 @@ public class SwerveDrive extends SubsystemBase {
                       new CANSparkMax(CAN.frontLeftTurnMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                       new CANSparkMax(CAN.frontLeftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                       new CANCoder(CAN.frontLeftCanCoder),
-                      274.921875),
+                      291.4453125),
             SWERVE_MODULE_POSITION.FRONT_RIGHT,
                   new SwerveModule(
                     SWERVE_MODULE_POSITION.FRONT_RIGHT,
                       new CANSparkMax(CAN.frontRightTurnMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                       new CANSparkMax(CAN.frontRightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                       new CANCoder(CAN.frontRightCanCoder),
-                      58.18359375),
+                      183.33984375),
             SWERVE_MODULE_POSITION.BACK_LEFT,
                   new SwerveModule(
                     SWERVE_MODULE_POSITION.BACK_LEFT,
                       new CANSparkMax(CAN.backLeftTurnMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                       new CANSparkMax(CAN.backLeftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                       new CANCoder(CAN.backLeftCanCoder),
-                      19.3359375),
+                      271.7578125),
             SWERVE_MODULE_POSITION.BACK_RIGHT,
                   new SwerveModule(
                     SWERVE_MODULE_POSITION.BACK_RIGHT,
                       new CANSparkMax(CAN.backRightTurnMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                       new CANSparkMax(CAN.backRightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless),
                       new CANCoder(CAN.backRightCanCoder),
-                      2.63671875)));
+                      331.875)));
 
   private final Pigeon2 m_pigeon = new Pigeon2(CAN.pigeon, "rio");
   private Trajectory m_trajectory;
@@ -365,21 +356,3 @@ public class SwerveDrive extends SubsystemBase {
     m_pigeon.getSimCollection().setRawHeading(-Units.radiansToDegrees(m_simYaw));
   }
 }
-
-
-
-
-
-/* 
-  private ProfiledPIDController m_xController =
-      new ProfiledPIDController(kP_X, 0, kD_X, kThetaControllerConstraints);
-  private ProfiledPIDController m_yController =
-      new ProfiledPIDController(kP_Y, 0, kD_Y, kThetaControllerConstraints);
-  private ProfiledPIDController m_turnController =
-      new ProfiledPIDController(kP_Theta, 0, kD_Theta, kThetaControllerConstraints);
-
-*/
-    
-  
-   
-

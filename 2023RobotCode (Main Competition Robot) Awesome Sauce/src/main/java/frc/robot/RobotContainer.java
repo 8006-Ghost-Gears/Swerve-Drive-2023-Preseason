@@ -4,9 +4,6 @@
 
 package frc.robot;
 
-
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.HashMap;
 
 import com.pathplanner.lib.auto.PIDConstants;
@@ -16,42 +13,31 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.math.controller.HolonomicDriveController;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.util.datalog.DataLog;
-import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.swerve.SetSwerveDrive;
 import frc.robot.commands.swerve.SetSwerveDriveBalance;
+import frc.robot.commands.swerve.SetSwerveDriveLock;
+import frc.robot.commands.ShoulderDownCommand;
+import frc.robot.commands.ShoulderUpCommand;
+import frc.robot.commands.StowedCommand;
 import frc.robot.commands.autos.BalanceMid;
-import frc.robot.commands.autos.BlueStartRightChargeStation;
 import frc.robot.commands.autos.DriveBackward;
 import frc.robot.commands.autos.DriveForwardLong;
 import frc.robot.commands.autos.DriveForwardShort;
 import frc.robot.simulation.FieldSim;
+import frc.robot.subsystems.ArmSub;
+import frc.robot.subsystems.ShoulderSub;
 import frc.robot.subsystems.swerve.SwerveDrive;
-import frc.robot.subsystems.swerve.SwerveModule;
-import frc.robot.utils.ModuleMap;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -61,11 +47,13 @@ import frc.robot.utils.ModuleMap;
  */
 public class RobotContainer {
 
-  private final DataLog m_logger = DataLogManager.getLog();
-
   // The robot's subsystems and commands are defined here...
 
   private final SwerveDrive m_swerveDrive = new SwerveDrive();
+
+  public static ShoulderSub mShoulderSub = new ShoulderSub();
+
+  public static ArmSub mArmSub = new ArmSub();
 
   private final SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
 
@@ -74,29 +62,26 @@ public class RobotContainer {
   HashMap<String, Command> m_eventMap = new HashMap<>();
   private SwerveAutoBuilder m_autoBuilder;
 
-  static Joystick leftJoystick = new Joystick(Constants.USB.leftJoystick);
-  static Joystick rightJoystick = new Joystick(Constants.USB.rightJoystick);
-  static XboxController xBoxController = new XboxController(Constants.USB.xBoxController);
-  static PS4Controller testController = new PS4Controller(Constants.USB.testController);
-
-  public Trigger[] leftButtons = new Trigger[2];
-  public Trigger[] rightButtons = new Trigger[2];
-  public Trigger[] xBoxButtons = new Trigger[10];
-  public Trigger[] xBoxPOVButtons = new Trigger[4];
-  public Trigger xBoxLeftTrigger, xBoxRightTrigger;
-
-  // The robot's subsystems and commands are defined here...
-
-  //public static ConeModeSub mConeModeSub = new ConeModeSub();
+  public static PS4Controller testController = new PS4Controller(Constants.testController);
 
   public static PS4Controller operator = new PS4Controller(Constants.operator);
 
-
+  
   //Auto Stabalize Button 
   JoystickButton Stabalize = new JoystickButton(testController, 5);
+  //Lock Wheels Button
+  JoystickButton Lock = new JoystickButton(testController, 6);
+
+  // Operator Buttons
+  POVButton ShoulderUp = new POVButton(operator, 0);
+  POVButton ShoulderDown = new POVButton(operator, 180);
+  JoystickButton Stowed = new JoystickButton(operator, 12);
+  JoystickButton ArmIn = new JoystickButton(operator, 5);
+  JoystickButton ArmOut = new JoystickButton(operator, 7);
 
 
 /*
+ * Tips For Programmers
  * POV is the D-Pad, Example: POVButton handOpen = new POVButton(operator, 90);
  * The POV buttons are referred to by the angle. Up is 0, right is 90, down is 180, and left is 270.
  * buttonNumber 1 is Square on a PS4 Controller
@@ -129,10 +114,8 @@ public class RobotContainer {
     initializeSubsystems();
     initAutoBuilder();
     initializeAutoChooser();
-    //initializeAutoChooser();
 
     // Configure the button bindings
-    //mTurnTableSub.setDefaultCommand(new TurnTableCommand());
     configureButtonBindings();
    UsbCamera camera = CameraServer.startAutomaticCapture();
     camera.setResolution(160, 120); //Usually (640,320)
@@ -148,9 +131,9 @@ public class RobotContainer {
     m_swerveDrive.setDefaultCommand(
         new SetSwerveDrive(
             m_swerveDrive,
-            () -> -testController.getRawAxis(1),
-            () -> -testController.getRawAxis(0),
-            () -> -testController.getRawAxis(2)));
+            () -> testController.getRawAxis(1),
+            () -> testController.getRawAxis(0),
+            () -> testController.getRawAxis(2)));
     m_fieldSim.initSim();
   }
 
@@ -163,18 +146,15 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    for (int i = 0; i < leftButtons.length; i++)
-      leftButtons[i] = new JoystickButton(leftJoystick, (i + 1));
-    for (int i = 0; i < rightButtons.length; i++)
-      rightButtons[i] = new JoystickButton(rightJoystick, (i + 1));
-    for (int i = 0; i < xBoxButtons.length; i++)
-      xBoxButtons[i] = new JoystickButton(xBoxController, (i + 1));
-    for (int i = 0; i < xBoxPOVButtons.length; i++)
-      xBoxPOVButtons[i] = new POVButton(xBoxController, (i * 90));
-
    
-    Stabalize.whileTrue(new SetSwerveDriveBalance(m_swerveDrive, null, null, null).withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
+    ShoulderUp.whileTrue(new ShoulderUpCommand());
+    ShoulderDown.whileTrue(new ShoulderDownCommand());
+    Stowed.onTrue(new StowedCommand());
+    ArmIn.onTrue(new frc.robot.commands.ArmIn());
+    ArmOut.onTrue(new frc.robot.commands.ArmOut());
 
+    Stabalize.whileTrue(new SetSwerveDriveBalance(m_swerveDrive, null, null, null).withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
+    Lock.whileTrue(new SetSwerveDriveLock(m_swerveDrive, null, null, null).withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
 
   }
   
@@ -184,9 +164,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
+    // The selected command will run in autonomous
     return m_autoChooser.getSelected();
-    //return m_autoCommand;
   }
 
   public void initializeAutoChooser() {
@@ -205,21 +184,10 @@ public class RobotContainer {
     m_autoChooser.addOption(
         "DriveBackward", new DriveBackward("DriveBackward", m_autoBuilder, m_swerveDrive, m_fieldSim));
     SmartDashboard.putData("Auto Selector", m_autoChooser);
-    
-    m_autoChooser.addOption(
-        "BlueStartRightChargeStation", new BlueStartRightChargeStation("BlueStartRightChargeStation", m_autoBuilder, m_swerveDrive, m_fieldSim));
-    SmartDashboard.putData("Auto Selector", m_autoChooser);
 
     m_autoChooser.addOption(
         "BalanceMid", new BalanceMid("BalanceMid", m_autoBuilder, m_swerveDrive, m_fieldSim));
     SmartDashboard.putData("Auto Selector", m_autoChooser);
-    
-    //m_autoChooser.addOption(
-     // "JustBalance", new JustBalance("JustBalance", m_autoBuilder, m_swerveDrive, m_fieldSim));
-  //SmartDashboard.putData("Auto Selector", m_autoChooser);
-    
-    
-
 
     //The width and length for the robot is done in meters on PathPlanner.
 

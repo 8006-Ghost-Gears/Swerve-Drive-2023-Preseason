@@ -1,8 +1,5 @@
 package frc.robot.utils;
 
-import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
@@ -30,8 +27,8 @@ public final class RevUtils {
   }
 
   public static void setDriveMotorConfig(CANSparkMax motorController) {
-    motorController.getPIDController().setFF(0.21, PID_SLOT.VEL_SLOT.ordinal());//0.075  if you want to go fast set to 0.215 Will drain battery
-    motorController.getPIDController().setP(0.235, PID_SLOT.VEL_SLOT.ordinal());//0.075 if you want to go fast set to 0.2 Will drain battery
+    motorController.getPIDController().setFF(0.21, PID_SLOT.VEL_SLOT.ordinal());
+    motorController.getPIDController().setP(0.235, PID_SLOT.VEL_SLOT.ordinal());
     motorController.getPIDController().setI(0.0, PID_SLOT.VEL_SLOT.ordinal());
     motorController.getPIDController().setD(0.0, PID_SLOT.VEL_SLOT.ordinal());
 
