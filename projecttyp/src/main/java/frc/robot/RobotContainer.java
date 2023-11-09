@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -23,16 +24,37 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  public DriveSubsystem driveSub = new DriveSubsystem();
+  public static DriveSubsystem driveSub = new DriveSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private PS4Controller driver = new PS4Controller(Constants.driver);
-  private PS4Controller operator = new PS4Controller(Constants.operator);
+  public static PS4Controller driver = new PS4Controller(Constants.driver);
+
+
+  JoystickButton _xButton = new JoystickButton(driver, 1);
+
+  /*
+      (here to remember!!!)
+      * buttonNumber 1 is Square on a PS4 Controller
+      * buttonNumber 2 is X on a PS4 Controller
+      * buttonNumber 3 is Circle on a PS4 Controller
+      * buttonNumber 4 is Triangle on a PS4 Controller
+      * buttonNumber 5 is L1 on a PS4 Controller
+      * buttonNumber 6 is R1 on a PS4 Controller
+      * buttonNumber 7 is L2 on a PS4 Controller
+      * buttonNumber 8 is R2 on a PS4 Controller
+      * buttonNumber 9 is SHARE on a PS4 Controller
+      * buttonNumber 10 is OPTIONS on a PS4 Controller
+      * buttonNumber 11 is L3 on a PS4 Controller
+      * buttonNumber 12 is R3 on a PS4 Controller
+      * buttonNumber 13 is the PlayStaion Button on a PS4 Controller
+      * buttonNumber 14 is the Touchpad on a PS4 Controller
+   */
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+    driveSub.setDefaultCommand(new DriveCommand());
   }
 
   /**
@@ -55,7 +77,5 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-  }
+
 }

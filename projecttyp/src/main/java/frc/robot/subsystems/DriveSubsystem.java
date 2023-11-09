@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class DriveSubsystem extends SubsystemBase {
   /** Creates a new Drive. */
   CANSparkMax leftMotorBack, leftMotorFront, rightMotorBack, rightMotorFront;
+
   public DriveSubsystem() {
     
     // [  Right Motors  ]  
@@ -44,6 +45,15 @@ public class DriveSubsystem extends SubsystemBase {
     rightMotorBack.setInverted(true);
     rightMotorFront.setInverted(true);
 
+  }
+
+  public void setPower(double left, double right){
+    // [  Set Power ]
+    leftMotorBack.set(left);
+    leftMotorFront.set(left);
+
+    rightMotorBack.set(right);
+    rightMotorFront.set(right);
   }
 
   @Override
