@@ -15,14 +15,14 @@ package frc.robot;
 public final class Constants {
 
   // [  Controllers  ]
-  public static int operator = 1;
   public static int driver = 0;
 
   // [  Motors  ]
+  public static int leftMotorFront = 1;
   public static int leftMotorBack = 2;
-  public static int leftMotorFront = 3;
+
+  public static int rightMotorFront = 3;
   public static int rightMotorBack = 4;
-  public static int rightMotorFront = 5;
 
 
 }
