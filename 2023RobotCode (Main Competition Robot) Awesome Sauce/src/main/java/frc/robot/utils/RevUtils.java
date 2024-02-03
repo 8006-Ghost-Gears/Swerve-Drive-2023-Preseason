@@ -39,7 +39,7 @@ public final class RevUtils {
     motorController.setSmartCurrentLimit(25, 10);
     //motorController.setSmartCurrentLimit(60);
 
-    motorController.setOpenLoopRampRate(0.2);
+    //motorController.setOpenLoopRampRate(0.2);
     
     motorController.getPIDController().setOutputRange(-1, 1);
     motorController.enableSoftLimit(SoftLimitDirection.kForward, false);

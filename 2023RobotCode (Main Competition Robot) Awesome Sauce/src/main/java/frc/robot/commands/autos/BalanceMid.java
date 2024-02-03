@@ -25,22 +25,15 @@ public class BalanceMid extends SequentialCommandGroup {
       SwerveDrive swerveDrive,
       FieldSim fieldSim) {
 
-      double maxVel = Units.feetToMeters(4);
-    double maxAccel = Units.feetToMeters(4);
-    if (RobotBase.isSimulation()) {
-      maxVel = Units.feetToMeters(4);
-      maxAccel = Units.feetToMeters(4);
-    }
-
-      PathConstraints constraints = new PathConstraints(maxVel, maxAccel);
-
-      List<PathPlannerTrajectory> trajectory =
+      var trajectory =
         TrajectoryUtils.readTrajectory(
-            pathName, constraints);
+            pathName, new PathConstraints(Units.feetToMeters(4), Units.feetToMeters(4)));
+
+      var autoPath = autoBuilder.fullAuto(trajectory);
 
     addCommands(
         new SetSwerveOdometry(swerveDrive, trajectory.get(0).getInitialHolonomicPose(), fieldSim),
-        new PlotAutoTrajectory(fieldSim, pathName, trajectory),
+        autoPath,
         new AutoBalance(swerveDrive),
         new SetSwerveNeutralMode(swerveDrive, IdleMode.kBrake)
             .andThen(() -> swerveDrive.drive(0, 0, 0, false, false)));
